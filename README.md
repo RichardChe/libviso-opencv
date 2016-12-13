@@ -33,5 +33,5 @@ libviso with opencv image interface
 3. Change the paths and frame begin and end in parameter.xml
 4. run
 
-       ./viso2 parameter.xml
+        ./viso2 parameter.xml
 
