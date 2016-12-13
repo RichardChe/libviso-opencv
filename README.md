@@ -8,12 +8,11 @@ libviso with opencv image interface
   via 
 
         sudo apt-get install libopencv-dev
-  
+        
 * CMake,
 
         sudo apt-get install cmake
-        
-        
+
 ## Installation(Tested in Ubuntu 14.04)
 1. Clone this repository via 
 
@@ -24,5 +23,14 @@ libviso with opencv image interface
         mkdir build && cd build
         cmake ..
         make
-      
+
 ## Run
+1.  Make sure the current directory is libviso-opencv/build
+2. Copy a paramater file to libviso-opencv/build
+
+        cp ../src/parameter.xml.example parameter.xml
+
+3. Change the paths and frame begin and end in parameter.xml
+4. run
+
+       ./viso2 parameter.xml
