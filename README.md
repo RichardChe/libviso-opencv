@@ -17,7 +17,7 @@ libviso with opencv image interface
 ## Installation(Tested in Ubuntu 14.04)
 1. Clone this repository via 
 
-        git clone https://github.com/ethz-asl/okvis.git
+        git clone https://github.com/Richardche/libviso-opencv.git
 
 2. Build
 
