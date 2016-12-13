@@ -34,4 +34,4 @@ libviso with opencv image interface
 4. run
 
        ./viso2 parameter.xml
-       
+
