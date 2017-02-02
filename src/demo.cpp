@@ -31,7 +31,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #include <vector>
 #include <stdint.h>
 
-#include "viso_stereo.h"
+#include "viso_mono.h"
 #include <cv.h>
 #include <highgui.h>
 #include <time.h>
@@ -50,16 +50,15 @@ int main(int argc, char* argv[])
 	}
 	// set most important visual odometry parameters
 	// for a full parameter list, look at: viso_stereo.h
-	VisualOdometryStereo::parameters param;
+	VisualOdometryMono::parameters param;
 
-	// calibration parameters for sequence 2010_03_09_drive_0019 
+	// calibration parameters for sequence 2010_03_09_drive_0019
 	param.calib.f = 645.24; // focal length in pixels
 	param.calib.cu = 635.96; // principal point (u-coordinate) in pixels
 	param.calib.cv = 194.13; // principal point (v-coordinate) in pixels
-	param.base = 0.5707; // baseline in meters
 
 	// init visual odometry
-	VisualOdometryStereo viso(param);
+	VisualOdometryMono viso_mono(param);
 
 	// current pose (this matrix transforms a point from the current
 	// frame's camera coordinates to the first frame's camera coordinates)
@@ -76,7 +75,6 @@ int main(int argc, char* argv[])
 	cout << "leftDir:" << leftDir << endl;
 	cout << "rightDir:" << rightDir << endl;
 	cout << "poseFile:" << poseFile << endl;
-	//system("pause");
 
 	FILE* fp = fopen(poseFile.c_str(), "w");
 
@@ -94,10 +92,8 @@ int main(int argc, char* argv[])
 		{
 			// load left and right input image
 			sprintf(leftFile, leftDir.c_str(), i);
-			sprintf(rightFile, rightDir.c_str(), i);
 
 			Mat leftImg = imread(leftFile, CV_LOAD_IMAGE_GRAYSCALE);
-			Mat rightImg = imread(rightFile, CV_LOAD_IMAGE_GRAYSCALE);
 
 			// image dimensions
 			int32_t width = leftImg.cols;
@@ -109,18 +105,18 @@ int main(int argc, char* argv[])
 			// compute visual odometry
 			int32_t dims[] = { width, height, width };
 			timeBegin = clock();
-			if (viso.process(leftImg.data, rightImg.data, dims))
+			if (viso_mono.process(leftImg.data, dims))
 			{
 				// on success, update current pose
-				pose = pose * Matrix::inv(viso.getMotion());
+				pose = pose * Matrix::inv(viso_mono.getMotion());
 				// output some statistics
-				double num_matches = viso.getNumberOfMatches();
-				double num_inliers = viso.getNumberOfInliers();
+				double num_matches = viso_mono.getNumberOfMatches();
+				double num_inliers = viso_mono.getNumberOfInliers();
 				cout << ", Matches: " << num_matches<<endl;
 				cout << pose << endl << endl;
-				for (int32_t i = 0; i < 4; i++) 
+				for (int32_t i = 0; i < 4; i++)
 				{
-					for (int32_t j = 0; j < 4; j++) 
+					for (int32_t j = 0; j < 4; j++)
 					{
 						fprintf(fp, "%12.7f ", pose.val[i][j]);
 					}
