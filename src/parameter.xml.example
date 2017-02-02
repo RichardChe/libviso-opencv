@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<opencv_storage>
+<FrameBegin>0</FrameBegin>
+<FrameEnd>372</FrameEnd>
+<LeftDir>/home/lenovo/2010_03_09_drive_0019/I1_%06d.png</LeftDir>
+<RightDir>/home/lenovo/2010_03_09_drive_0019/I2_%06d.png</RightDir>
+<PoseFile>pose.txt</PoseFile>
+</opencv_storage>
